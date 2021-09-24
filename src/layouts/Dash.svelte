@@ -102,8 +102,9 @@
   function addPoint(iv) {
     const prevPoint = rows[rows.length - 1];
     if (
-      Math.sign(prevPoint.voltage - iv.voltage) !=
-      Math.sign(prevPoint.current - iv.current)
+      prevPoint &&
+      Math.sign(prevPoint.voltage - iv.voltage) ==
+        Math.sign(prevPoint.current - iv.current)
     )
       return;
     const row = {
