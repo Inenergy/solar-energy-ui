@@ -1,8 +1,6 @@
 <script>
-  import Select from '../molecules/Select';
   import Button from '../atoms/Button';
   import SaveButton from '../organisms/SaveButton';
-  import Toggle from '../atoms/Toggle';
   import RadioGroup from '../molecules/RadioGroup';
   import { ipcRenderer } from 'electron';
   import Chart from 'chart.js';
@@ -10,10 +8,10 @@
   import configureChart from './chart.config';
   import { onMount } from 'svelte';
   import { serialData } from '../stores';
-  import { CONNECTION_TYPES, COMMANDS } from '../constants';
+  import { COMMANDS } from '../constants';
   import Version from '../atoms/Version';
   import UpdateModal from '../organisms/UpdateModal';
-  import {__} from '../utils/translations';
+  import { __ } from '../utils/translations';
   let updateAvailable = ipcRenderer.sendSync('checkUpdate');
 
   ipcRenderer.on('updateAvailable', () => (updateAvailable = true));
@@ -45,7 +43,6 @@
     saveDisabled = true,
     isActive,
     chart,
-    IVCBtn,
     chartOption = chartOptions[0],
     unsubscribeData,
     timeStart = 0;
@@ -53,7 +50,7 @@
   function changeAxes(e) {
     if (chartOption.value !== e.target.value) {
       chartOption = chartOptions.find(
-        option => option.value === e.target.value
+        (option) => option.value === e.target.value
       );
       redrawChart();
     }
@@ -68,7 +65,7 @@
   }
 
   function monitorData() {
-    unsubscribeData = serialData.subscribe(data => {
+    unsubscribeData = serialData.subscribe((data) => {
       if (data.isGettingCharacteristic) {
         if (!isActive) startDrawing();
         addPoint(data);
@@ -103,6 +100,12 @@
   }
 
   function addPoint(iv) {
+    const prevPoint = rows[rows.length - 1];
+    if (
+      Math.sign(prevPoint.voltage - iv.voltage) !=
+      Math.sign(prevPoint.current - iv.current)
+    )
+      return;
     const row = {
       seconds: timeStart++,
       voltage: iv.voltage,
@@ -134,7 +137,6 @@
 </script>
 
 <div class="layout">
-
   {#if updateAvailable}
     <UpdateModal />
   {/if}
@@ -149,7 +151,8 @@
       name="chartAxes"
       options={chartOptions}
       onChange={changeAxes}
-      value={chartOption.value} />
+      value={chartOption.value}
+    />
     <div class="short-label">U, {$__('V')}</div>
     <div class="value">{$serialData.voltage.toFixed(3)}</div>
     <div class="short-label">I, {$__('A')}</div>
@@ -169,7 +172,9 @@
     </div>
   </main>
   <footer>
-    <Button on:click={getIVC} disabled={isActive}>{$__('get characteristics')}</Button>
+    <Button on:click={getIVC} disabled={isActive}
+      >{$__('get characteristics')}</Button
+    >
     <SaveButton disabled={saveDisabled} />
   </footer>
 </div>
