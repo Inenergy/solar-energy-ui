@@ -49,7 +49,7 @@
   },
   "build": {
     "directories": {},
-    "rebuildDependencies": false,
+    "npmRebuild": false,
     "linux": {
       "executableName": "solar-energy-ui",
       "category": "education"
