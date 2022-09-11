@@ -7,8 +7,10 @@
 Когда ОС загрузится завершаем работу текущей программы через alt+f4.  
 Щелкаем правой кнопкой по рабочему столу, в контекстном меню выбираем file manager.  
 В файловом менеджере находим файл ~/.config/openbox/autostart и отрывем редактором текста.  
-Заменяем в файле название программы в автозапуске на solar-energy-ui должно получиться   
-`~/inenergy-gui/dist/solar-energy-ui*.AppImage > ~/.inenergy/solar-energy-ui.log`  
+Заменяем в файле название программы в автозапуске на solar-energy-ui, для pi-4 так же надо добавить --no-sandbox, должно получиться:
+```
+~/inenergy-gui/dist/solar-energy-ui*.AppImage --no-sandbox > ~/.inenergy/solar-energy-ui.log
+```
 Перезапускаем систему через то же контекстное меню.
 
 ***
