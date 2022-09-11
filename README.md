@@ -22,7 +22,7 @@
 Для этого вводим комманды  
 ```sh
 sudo apt-get update
-sudo apt-get install -y git xorg openbox pcmanfm geany lxterminal chromium-browser libudev-dev
+sudo apt-get install -y git xorg openbox lightdm pcmanfm geany lxterminal chromium-browser libudev-dev libxss1
 ```
 Так же нужно установить nvm  
 ```sh
@@ -32,11 +32,14 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 Теперь надо установить node коммандой `nvm install 12`  
 Можно проверить установку коммандой `node --version`
 
-Затем нужно клонировать репозиторий `git clone https://github.com/SonikDropout/solar-energy-ui.git`  
-Переходим в папку с программой `cd solar-energy-ui`  
-Запускаем установочный скрипт коммандами  
-`chmod +x scripts/install.sh`  
-`./script/install.sh`  
+Затем нужно клонировать репозиторий и запустить установку программы:
+```sh
+git clone https://github.com/SonikDropout/solar-energy-ui.git  
+cd solar-energy-ui  
+./script/install.sh  
+```
+Теперь осталось включить автозапуск рабочего стола с помощью системной утилиты raspi-config. Вводим `sudo raspi-config` -> system options -> boot/auto login -> autologin to desktop  
+Перезагрузка `sudo reboot`
 ***
 ## Подключение к стенду
 
